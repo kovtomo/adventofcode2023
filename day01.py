@@ -41,3 +41,6 @@ if __name__ == "__main__":
                 "Solution :", firstLastDigit(x), 
                 "cumSum :", mySum
             )
+            
+    """
+        github test """
