@@ -33,32 +33,87 @@ def wordToNumber(inputItem):
         "seven":"7",
         "eight":"8",
         "nine":"9"
-    }
+    } 
     
+    justNumber = {
+        "one":1,
+        "two":2,
+        "three":3,
+        "four":4,
+        "five":5,
+        "six":6,
+        "seven":7,
+        "eight":8,
+        "nine":9
+    } 
+    
+
     leftnessRankingDict = {}
     for i in wordNumber:
         tempIndexList = [x.start() for x in re.finditer(i, inputItem)]
         if tempIndexList:
             for j in tempIndexList:
                 leftnessRankingDict[j] = i
-    leftnessRankingDict = dict(sorted(leftnessRankingDict.items()))
+                
+    leftnessRankingDictNumbers = {}
+    for i in justNumber.values():
+        tempIndexList = [x.start() for x in re.finditer(str(i), inputItem)]
+        if tempIndexList:
+            for j in tempIndexList:
+                leftnessRankingDictNumbers[j] = i
     
-    editTag = False
-    for i in leftnessRankingDict.values():
-        if i in inputItem:
-            inputItem = inputItem.replace(i, wordNumber[i], 1)
-            editTag = True
-       
-    return pd.Series([inputItem, editTag])
+    if leftnessRankingDict:
+        if leftnessRankingDictNumbers:
+            leftnessRankingDict.update(leftnessRankingDictNumbers)
+            
+        leftnessRankingDict = dict(sorted(leftnessRankingDict.items()))
+        
+        elementMin = (
+            min(leftnessRankingDict),
+            leftnessRankingDict[min(leftnessRankingDict)]
+        )
+        elementMax = (
+            max(leftnessRankingDict),
+            leftnessRankingDict[max(leftnessRankingDict)]
+        )
+        leftnessRankingDictRestr = dict([elementMin, elementMax])
+        
+        isItString = []
+        for i in leftnessRankingDictRestr:
+            if isinstance(leftnessRankingDictRestr[i], str):
+                isItString.append(True)
+        
+        if isItString.count(True) == 2:
+            newIndex = max(leftnessRankingDictRestr) - \
+                len(leftnessRankingDictRestr[min(leftnessRankingDictRestr)])
+            leftnessRankingDictRestr[newIndex] = leftnessRankingDictRestr.pop(
+                max(leftnessRankingDictRestr)
+            )
+            
+        for i in leftnessRankingDictRestr:
+            if isinstance(leftnessRankingDictRestr[i], str) \
+                and leftnessRankingDictRestr[i] in inputItem:
+                stringFirstHalf = inputItem[:i]
+                stringSecondHalf = inputItem[i:]
+                stringSecondHalf = stringSecondHalf.replace(
+                    leftnessRankingDictRestr[i], 
+                    wordNumber[leftnessRankingDictRestr[i]], 
+                    1
+                )
+                inputItem = stringFirstHalf + stringSecondHalf
+      
+    return inputItem
 
 if __name__ == "__main__":
        
-    with open("C:/Users/kovto/Documents/day01Input.txt", "r") as inputList:
+    with open(
+            "C:/Users/kovto/Documents/adventofcode2023/day01Input.txt", "r"
+    ) as inputList:
                 
         inputList = inputList.read().splitlines()
         df = pd.DataFrame(inputList, columns=["rawInput"])
         
-        df[["editedInput", "editTag"]] = df["rawInput"].apply(
+        df["editedInput"] = df["rawInput"].apply(
             lambda row: wordToNumber(row)
         )
         

@@ -22,7 +22,7 @@ def firstLastDigit(inputItem):
 
 if __name__ == "__main__":
        
-    with open("C:/Users/kovto/Documents/day01Input.txt", "r") as inputList:
+    with open("C:/Users/kovto/Documents/adventofcode2023/day01Input.txt", "r") as inputList:
                 
         inputList = inputList.read().splitlines()
         df = pd.DataFrame(inputList, columns=["rawInput"])
