@@ -47,7 +47,6 @@ def wordToNumber(inputItem):
         "nine":9
     } 
     
-
     leftnessRankingDict = {}
     for i in wordNumber:
         tempIndexList = [x.start() for x in re.finditer(i, inputItem)]
@@ -78,11 +77,7 @@ def wordToNumber(inputItem):
         )
         leftnessRankingDictRestr = dict([elementMin, elementMax])
         
-        isItString = []
-        for i in leftnessRankingDictRestr:
-            if isinstance(leftnessRankingDictRestr[i], str):
-                isItString.append(True)
-        
+        isItString = [isinstance(x, str) for x in leftnessRankingDictRestr.values()]       
         if isItString.count(True) == 2:
             newIndex = max(leftnessRankingDictRestr) - \
                 len(leftnessRankingDictRestr[min(leftnessRankingDictRestr)])
