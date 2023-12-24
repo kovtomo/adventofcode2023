@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 def isItPossible(redInput, greenInput, blueInput):
     
@@ -52,18 +53,25 @@ if __name__ == "__main__":
     df[1].ffill(inplace=True)
     df[1] = [x.replace(':', '') for x in df[1]]
 
-    df['trueFalse'] = pd.Series(dtype=bool)
-    for i, x in df.iterrows():
-        drawSplitList = x.tolist()
-        
-        redValue, greenValue, blueValue = numbersOfColours(drawSplitList)
-                
-        df['trueFalse'].at[i] = \
-            isItPossible(redValue, greenValue, blueValue)
-
-    mySolution = 0
+    gameMinList = []
     for i in df[1].unique():
         tempDf = df[df[1] == i]
-        
-        if False not in tempDf['trueFalse'].tolist():
-            mySolution += int(i)
+
+        redMin, greenMin, blueMin = 0, 0, 0
+        for k, x in tempDf.iterrows():
+            tempList = x.tolist()
+            
+            redValue, greenValue, blueValue = numbersOfColours(tempList)
+            
+            if redValue > redMin:
+                redMin = redValue
+            if greenValue > greenMin:
+                greenMin = greenValue
+            if blueValue > blueMin:
+                blueMin = blueValue
+        gameMinList.append([redMin, greenMin, blueMin])
+    
+    mySolution=0
+    for i in gameMinList:
+        drawSum = np.prod(i)
+        mySolution+=drawSum
