@@ -1,76 +1,68 @@
 import pandas as pd
 
-def isItPossible(red, green, blue):
+def isItPossible(redInput, greenInput, blueInput):
     
-    if red <= 12 and green <= 13 and blue <= 14:
+    if redInput <= 12 and greenInput <= 13 and blueInput <= 14:
         return True
     else:
         return False
 
+def numbersOfColours(inputList):
+    
+    redValue, greenValue, blueValue = 0, 0, 0
+       
+    for i, x in enumerate(inputList):
+        if isinstance(x, str):
+            if "red" in x:
+                redValue = int(inputList[i-1])
+                
+            if "green" in x:
+                greenValue = int(inputList[i-1])
+                
+            if "blue" in x:
+                blueValue = int(inputList[i-1])
+    
+    return redValue, greenValue, blueValue
 
 if __name__ == "__main__":
 
-    with open("C:/Users/kovto/Documents/day02Input.txt") as myFile:
+    with open(
+            "C:/Users/kovto/Documents/adventofcode2023/day02Input.txt", "r"
+    ) as myFile:
         
-        nStringList = myFile.readlines()
+        gamesList = myFile.read().splitlines()
     
-        nStringList = [
-            x.split(";") for x in nStringList
+        gamesList = [
+            x.split("; ") for x in gamesList
         ]    
 
-        valamiList = []
-        for i in nStringList:
+        drawList = []
+        for i in gamesList:
             for j in i:
-                valamiList.append(j.split(" "))
+                drawList.append(j.split(" "))
                 
-        gameList = [x if "Game" in x else x[1:] for x in valamiList]
-        for i in gameList:
+        for i in drawList:
             if 'Game' not in i:
                 i.insert(0, None)
                 i.insert(0, 'Game')
-        df = pd.DataFrame(gameList)
+        df = pd.DataFrame(drawList)
         
-        df[1] = df[1].fillna(method='ffill')
+        df[1].ffill(inplace=True)
         df[1] = [x.replace(':', '') for x in df[1]]
         
         df['trueFalse'] = pd.Series(dtype=bool)
-        for p, k in df.iterrows():
-            myStringSplit = k.tolist()
-            print(myStringSplit)
-            myStringSplit = [str(x).replace(',', '') for x in myStringSplit]
-            myStringSplit = [str(x).replace('\n', '') for x in myStringSplit]
-
-            redValue, greenValue, blueValue = 0, 0, 0
-            for i, x in enumerate(myStringSplit):
-                
-                try:
-                    if x == 'red':
-                        redValue = int(myStringSplit[i-1])
-                except ValueError:
-                    redValue = 0
-                
-                try:
-                    if x == 'green':
-                        greenValue = int(myStringSplit[i-1])
-                except ValueError:
-                    greenValue = 0
-                
-                try:
-                    if x == 'blue':
-                        blueValue = int(myStringSplit[i-1])
-                except ValueError:
-                    blueValue = 0
+        for i, x in df.iterrows():
+            drawSplitList = x.tolist()
+            
+            redValue, greenValue, blueValue = numbersOfColours(drawSplitList)
                     
-            df['trueFalse'].at[p] = isItPossible(redValue, greenValue, blueValue)
+            df['trueFalse'].at[i] = \
+                isItPossible(redValue, greenValue, blueValue)
 
-    maxCounter = 0
-    myCounter = 0
+    mySolution = 0
     df['finalSol'] = pd.Series(dtype=bool)
     for i in df[1].unique():
-        ddf = df[df[1] == i]
-        maxCounter += int(i)
+        tempDf = df[df[1] == i]
         
-        if False in ddf['trueFalse'].tolist():
-            myCounter += int(i)
-
-    realSolution = maxCounter - myCounter    
+        if False not in tempDf['trueFalse'].tolist():
+            mySolution += int(i)
