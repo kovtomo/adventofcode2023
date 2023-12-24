@@ -24,8 +24,8 @@ def firstLastDigit(inputItem):
 def wordToNumber(inputItem):
 
     """" Looking for the first index in the <inputItem> string 
-            of each occurance of each number written with letters 
-            and create a dict of the index, values pairs """    
+         of each occurance of each number written with letters 
+         and create a dict of the index, values pairs """    
 
     wordNumber = {
         "one":"1",
@@ -47,8 +47,8 @@ def wordToNumber(inputItem):
                 numberWithLetterDict[j] = i
         
     """" Looking for the first index in the <inputItem> string 
-            of each occurance of each number written as a number 
-            and create a dict of the index, values pairs """ 
+         of each occurance of each number written as a number 
+         and create a dict of the index, values pairs """ 
             
     numberList = list(range(1,10))
     
@@ -59,8 +59,8 @@ def wordToNumber(inputItem):
             for j in tempIndexList:
                 numberWithNumberDict[j] = i
     
-    """" In case both above created dict exists, 
-            create a single dict and sort it by key 
+    """" In case both above created dict exists, create a single dict and 
+         sort it by key 
         
          Then choose the first and last item by key in the sorted dict. These
          are the first and last occurances of numbers in <inputItem> string,
