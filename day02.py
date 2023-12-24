@@ -47,9 +47,11 @@ if __name__ == "__main__":
                 i.insert(0, 'Game')
         df = pd.DataFrame(drawList)
         
+        df = df.replace(",", "", regex=True)
+
         df[1].ffill(inplace=True)
         df[1] = [x.replace(':', '') for x in df[1]]
-        
+
         df['trueFalse'] = pd.Series(dtype=bool)
         for i, x in df.iterrows():
             drawSplitList = x.tolist()
