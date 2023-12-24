@@ -62,7 +62,6 @@ if __name__ == "__main__":
                 isItPossible(redValue, greenValue, blueValue)
 
     mySolution = 0
-    df['finalSol'] = pd.Series(dtype=bool)
     for i in df[1].unique():
         tempDf = df[df[1] == i]
         
