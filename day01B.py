@@ -23,9 +23,10 @@ def firstLastDigit(inputItem):
     
 def wordToNumber(inputItem):
 
-    """" Looking for the first index in the <inputItem> string 
-         of each occurance of each number written with letters 
-         and create a dict of the index, values pairs """    
+    """" 
+        Looking for the first index in the <inputItem> string
+        of each occurance of each number written with letters
+        and create a dict of the index, values pairs """    
 
     wordNumber = {
         "one":"1",
@@ -46,9 +47,10 @@ def wordToNumber(inputItem):
             for j in tempIndexList:
                 numberWithLetterDict[j] = i
         
-    """" Looking for the first index in the <inputItem> string 
-         of each occurance of each number written as a number 
-         and create a dict of the index, values pairs """ 
+    """"
+        Looking for the first index in the <inputItem> string
+        of each occurance of each number written as a number
+        and create a dict of the index, values pairs """ 
             
     numberList = list(range(1,10))
     
@@ -59,26 +61,27 @@ def wordToNumber(inputItem):
             for j in tempIndexList:
                 numberWithNumberDict[j] = i
     
-    """" In case both above created dict exists, create a single dict and 
-         sort it by key 
+    """"
+        In case both above created dict exists, create a single dict and
+        sort it by key
         
-         Then choose the first and last item by key in the sorted dict. These
-         are the first and last occurances of numbers in <inputItem> string,
-         written either by letters or as a number
+        Then choose the first and last item by key in the sorted dict. These
+        are the first and last occurances of numbers in <inputItem> string,
+        written either by letters or as a number
+        
+        If both the first and last number in the <inputItem> string are
+        written by letters, then modify the positional index of the
+        last item (decrease by the lenght of the first number written as a
+        word) as it will change after the replacement of the first number
+        written with letters (the <inputItem> string will be shorter after the
+        first iteration of replacement)
          
-         If both the first and last number in the <inputItem> string are 
-         written by letters, then modify the positional index of the
-         last item (decrease by the lenght of the first number written as a
-         word) as it will change after the replacement of the first number
-         written with letters (the <inputItem> string will be shorter after the 
-         first iteration of replacement)
-         
-             eg. nine54gfdgeight -> 0-nine; 10-eight
-             
-                 After replacing "0-nine", the initial string will be shorter
-                 So "10-eight"" is no longer true: 954gfdgeight -> 7-eight
-         
-        Finally cut the <inputItem> string by half at the start index of the 
+            eg. nine54gfdgeight -> 0-nine; 10-eight
+            
+                After replacing "0-nine", the initial string will be shorter
+                So "10-eight"" is no longer true: 954gfdgeight -> 7-eight
+        
+        Finally cut the <inputItem> string by half at the start index of the
         number written with letters (which is the key of the our dict) 
         which we want to replace to make sure we replace the number written 
         with letters at the right position starting from left to right and
